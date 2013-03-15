@@ -1,7 +1,18 @@
 Jay Wang
-Frogger/Assignment 2
+Frogger II/Assignment 4
+UPDATED README
 
-1. Parameters are setup in a separate function that is called in the starting function.
-5 logs, 5 cars, and everything else is rendered correctly
+1. Implemented:
+   - All basics implemented
 
-3. 1.5 hrs
+2. Collaboration:
+   - No one
+
+3. Hours:
+   - 5 hrs
+
+4. Extra implementations
+   - Timer goes form 300 seconds, then you lose one life, scoring with timer not implemented
+   - Level progression implemented, increases speeds by .2 per level
+
+5. Did not use jQuery
