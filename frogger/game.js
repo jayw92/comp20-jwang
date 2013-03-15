@@ -138,7 +138,7 @@ function collision(){
    // Frog on log cases
    if (cur_lane >= 7 && cur_lane <= 11){
       for (z in log_x[key]){
-         if (frog_x > log_x[key][z] && frog_x < log_x[key][z]+ log_w[11-cur_lane]){
+         if (frog_x >= log_x[key][z] && frog_x <= log_x[key][z]+ log_w[11-cur_lane]){
             on_log = true;
          }
       }
@@ -151,7 +151,8 @@ function collision(){
    key = ''+(5-cur_lane);
    if (cur_lane >= 1 && cur_lane <= 5){
       for (z in car_x[key]){
-         if (frog_x > car_x[key][z] && frog_x < car_x[key][z]+ car_w[5-cur_lane]){
+         if ((frog_x >= car_x[key][z] && frog_x <= car_x[key][z]+ car_w[5-cur_lane]) ||
+		(frog_x + frog_width >= car_x[key][z] && frog_x + frog_width <= car_x[key][z]+ car_w[5-cur_lane])){
             safe = false;
          }
       }
@@ -161,8 +162,7 @@ function collision(){
    if (cur_lane == 12){
       safe = false;
       for (z in gates){
-         if (frog_x >= gates[z] && frog_x <= gates[z]+ gate_width && gate_success[z] == false){
-            console.log("made it");
+         if (frog_x >= gates[z] && frog_x + frog_width <= gates[z]+ gate_width && gate_success[z] == false){
             gate_success[z] = true;
             jumps_home++;
             if (jumps_home%5 == 0){
