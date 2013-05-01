@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Comp 20 Assignment 6 - Security Assessment of ScoreCenter</title>
+<link rel="stylesheet" type="text/css" href="report.css">
+</head>
+
+<body>
+<div class="center">
+<h1 class="title"><span class="italic">ScoreCenter</span> Security Analysis</h1>
+<a href="#introduction">Introduction</a> | <a href="#methodology">Methodology</a> | <a href="#findings">Abstract of Findings</a> | <a href="#issues">Issues Found</a> | <a href="#conclusion">Conclusion</a>
+</div>
+
+<a name="introduction"></a><h1>Introduction</h1>
+<p>This app provides web games to log scores into their database and it keeps track 
+of fields such as username, game title, score, and date the score was logged. 
+It uses many different APIs such as allowing games to post their scores and 
+allowing searches to be made on the usernames.</p>
+
+<a name="methodology"></a><h1>Methodology</h1>
+<p>To find security issues with the ScoreCenter app, one of the main tools used
+was the source code itself, which was provided by Caleb Malchik.</p>
+<p>To test the application, Nodejs and other software was needed and then
+using a localhost enviornment we ran the app and tried different attacks.</p>
+<p>We tried to use some other software/security tools, but they were not helpful
+enough to contribute anything.</p>
+
+<a name="findings"></a><h1>Abstract of Findings</h1>
+<p>The main findings of the security issues in ScoreCenter include (1) an API 
+that clears the ENTIRE database, (2) allowing access from any place without
+checking the connections' identities, and (3) input field that allows 
+the user to put whatever they want.</p>
+<ol>
+<li><h2>'/clear' API</h2>
+<ul>
+<li>Anyone can clear the database if they know about the API so the database loses
+value/persistence.</li>
+<li>Does not ask for confirmation even though the results of this API is extremely 
+important and can cause a lot of issues.</li>
+</ul>
+</li>
+<br />
+<li><h2>Allow all to access the APIs</h2>
+<ul>
+<li>Anyone or any site can use the API, which is great that it's so open source, 
+but it kind of lets malicious users have a lot of freedom in messing with the 
+app and that causes trouble for other users who actually value the app and want to 
+use it for its resources.</li>
+<li>Data in a database should be safe but also meaningful, and that might not be 
+the case if all data from anywhere is allowed into the database without any 
+checks or filtering.</li>
+</ul>
+</li>
+<br />
+<li><h2>Unrestricted user input</h2>
+<ul>
+<li>One of the APIs shows a page with a text box and a submit button but it is not 
+limited in how much the user can type in.</li>
+<li>Attackers can type malicious code to attack this security fault and corrupt the 
+app.</li>
+</ul>
+</li>
+</ol>
+
+
+<a name="issues"></a><h1>Issues Found</h1>
+<ol>
+<li><h2>'/Clear' API problem</h2></li>
+<ul>
+<li><span class="emph">Location: </span>web.js</li>
+<li><span class="emph">Severity: </span><span class="high">HIGH</span> - Anyone can clear the database...</li>
+<li><span class="emph">Description: </span>The GET '/clear' API allows any random person 
+to delete the ENTIRE database, which is really bad if this database is to be used 
+a lot or keeps useful/meaningful information.</li>
+<li><span class="emph">Resolution: </span>There should be a 2 step security process 
+added to the API. (1) Admin credentials are needed to use the API so that we can 
+make sure it is an intentional deletion of the database. (2) There should be a 
+confirmation step where we make sure that it is what the admin wants to do.</li>
+</ul>
+
+<li><h2>Access-Control-Allow-Origin '*'</h2></li>
+<ul>
+<li><span class="emph">Location: </span>web.js</li>
+<li><span class="emph">Severity: </span><span class="medium">MEDIUM</span> - 
+Any site/user can use the app without checks</li>
+<li><span class="emph">Description: </span>Since the app allows any web service 
+or user to connect to the database, while that is a good thing, it leads the app 
+to be open to users that might hold malicious intent that will easily toy with 
+the database APIs and try to find ways to break it.</li>
+<li><span class="emph">Resolution: </span>There are some things that can make it 
+harder for those bad apples such as having authentication of users that are actually 
+going to use the app for good purposes, or we can implement the app such that only 
+certain sites/domains have access to the database and that site can delegate who/what 
+can connect to the database, in other words, a middle man that filters out certain 
+users.</li>
+</ul>
+
+<li><h2>Insecure user input field</h2>
+<ul>
+<li><span class="emph">Location: </span>web.js</li>
+<li><span class="emph">Severity: </span><span class="high">HIGH</span> - 
+Allows users too much freedom in the input box</li>
+<li><span class="emph">Description: </span>The input text box for the '/usersearch' 
+API allows for as many characters as the user desires, which is terrible since 
+they can just type in whatever code they want to run and send it to the app.</li>
+<li><span class="emph">Resolution: </span>The input box should be given a max 
+number of allowed characters. This is fine since the search is on usernames and 
+they shouldn't be much longer than 32 characters in the first place: 
+[input type="text" name="textboxname" maxlength="32"]. This restriction 
+will greatly help in securing the input that the user can give and there are other things 
+that can also be done in order to secure the input box.</li>
+</ul>
+</li>
+
+</ol>
+
+
+<a name="conclusion"></a><h1>Conclusion</h1>
+<p>Most of the security faults found were in the web.js source code and specifically 
+in the APIs that were allowed. But there are other security issues that might not 
+have been found since we were only able to examine the source code.</p>
+<p>Overall, the ideas and implementation of the ScoreCenter database is good and 
+would be great to use if the APIs are a little more developed and also secured. 
+Hopefully the app is relooked at and implemented a little more.</p> 
+</body>
+</html>
